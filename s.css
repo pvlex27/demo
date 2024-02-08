@@ -1,0 +1,98 @@
+/* style_dashboard.css */
+
+/* Light Theme Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #424040;
+    color: #000; /* Set text color for the light theme */
+}
+
+.navbar {
+    background-color: #141414;
+    color: #fff;
+    height: 100vh;
+    text-align: center;
+    width: 300px;
+    position: fixed;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.single-line {
+    white-space: nowrap;
+}
+
+.feedback-buttons {
+    display: none;
+    margin-top: 15px;
+}
+
+.question-box {
+    display: none;
+}
+
+.profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.dashboard-content {
+    margin-left: 200px;
+    padding: 20px;
+    background-color: #424040; /* Set background color for the light theme */
+    color: #000; /* Set text color for the light theme */
+}
+
+.input-box {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.response-box {
+    border: 0;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: transparent;
+    text-align: left;
+    transition: border 0.3s;
+    
+}
+
+.input-box .btn-dark {
+    background-color: black;
+    color: white;
+}
+
+.input-box .btn-dark:hover {
+    background-color: #33914f; /* Darker color on hover, adjust as needed */
+}
+
+.bottom-buttons {
+    margin-bottom: 20px;
+}
+
+.question-box h6.white-text {
+    color: #fff; /* Set text color to white */
+}
+
+.bottom-buttons .btn-warning {
+    background-color: rgb(41, 40, 40);
+    color: white;
+}
+
+.bottom-buttons .btn-danger {
+    background-color: rgb(41, 40, 40);
+    color: white;
+}
+
+#printButton,
+#shareButton {
+    display: none;
+}

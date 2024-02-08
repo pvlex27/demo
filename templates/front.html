@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexResearch</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2d2d2d; /* Slaty black color */
+            color: white;
+        }
+
+        nav {
+            background-color: #000; /* Dark black navbar */
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        section {
+            text-align: center;
+            padding: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 60px;
+            cursor: pointer;
+        }
+
+        #buttonsContainer {
+            margin-top: 20px;
+        }
+
+        #signUpBtn {
+            background-color: #29116b; /* Blue */
+            color: white;
+            border: none;
+        }
+        #signUpBtn:hover{
+            background-color: rgb(211, 165, 181);
+            color: #000;
+        }
+        #signInBtn {
+            background-color: #248b27; /* Green */
+            color: white;
+            border: none;
+        }
+        #signInBtn:hover{
+            background-color: rgb(235, 36, 36);
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="path/to/your/logo.png" alt="LexResearch Logo">
+        <h2>Welcome to LexResearch</h2>
+    </nav>
+
+    <section>
+       
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur iure natus blanditiis tenetur? Neque dolorum laborum quaerat, maiores eius error beatae dignissimos labore tenetur aperiam. Exercitationem corporis corrupti alias atque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan ligula sit amet leo consequat, a gravida sapien volutpat. Integer sit amet justo nec nisi varius imperdiet non at turpis.Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur iure natus blanditiis tenetur? Neque dolorum laborum quaerat, maiores eius error beatae dignissimos labore tenetur aperiam. Exercitationem corporis corrupti alias atque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed accumsan ligula sit amet leo consequat, a gravida sapien volutpat. Integer sit amet justo nec nisi varius imperdiet non at turpis.</p>
+        
+        <div id="buttonsContainer">
+            <button id="signUpBtn" onclick="redirectTo('/register/')">Register</button>
+    <button id="signInBtn" onclick="redirectTo('/login/')">Login</button>
+
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('signUpBtn').addEventListener('click', function() {
+            redirectTo('/register');
+        });
+    
+        document.getElementById('signInBtn').addEventListener('click', function() {
+            redirectTo('/login');
+        });
+    
+        function redirectTo(page) {
+            window.location.href = page;
+        }
+    </script>
+
+    
+ 
+</body>
+</html>

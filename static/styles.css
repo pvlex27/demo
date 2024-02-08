@@ -1,0 +1,19 @@
+body {
+    background-color: #454546;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px; /* Adjust the max-width as needed */
+    height: 100%;
+}
+
+.center-form {
+    text-align: center;
+}
+

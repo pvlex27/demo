@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "potent-well-409605",
+  "private_key_id": "806004cf4ad4bb6000aa687b8d2ad61bdd2bf4ee",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCen1Zz+xf4g4Iv\nJ1X5Fk6QzCzF6sqAQg7QHL8QHwjWpkjt4WFe/kFCfymBRxB0EKErMYxThT3QOysW\n0pgb//qJF4LsraR4AGoKxgu+hM6lnWB0AMMwnxWqUXzcccjz7Vrxa6Jre/RoGxZM\nlU/hkpvNwP124wHW9ppZgYNvYfNfkhWnLkUZjrQ/e16H5PH/nUByDPy4HPRSgqyc\nCy4JFBFhajHLRnTfFMYOqnQGcBfb0JCeH8Kq4TexcD/ys41i1DXt6g85ZMe/ejTD\neCrJxkHI7sAObI8ngIzgVALYp0tacm9/qZwWnSrm5xBemqZG44rJfSG0M8g9mM5A\nUyFFWcDtAgMBAAECggEABB4cQyn9Ow8E4d76SRtGYlVegyu/Ynl0g3v/jLZVhybt\nZTlwyuO8Q3LkG65B09V7rZCddSyUCHQEwBSq7K0mLolc9XJjftb56bou41z0tVFi\nx9geOQSkLhXr8RgGEKj0b6hs4K/ozgwH9eh5WKBy6XItUjj92vvvUUv+orVO+UfZ\nzA+ARSJMmz350OgiuK9xMWonbm5uBRzchZWdb/05uJeGxucvBvEGe/QqhAyZwEHp\n2V78sO83RFrdy9qT8xSDIJJbMR/ZdcCKbcQ/yHa0gY1IZRW1qj+kg0ZgKBlLpqU+\nTCQPhWk05m2DQxYUvuCFpzY+qgpKWlo2U9kgz8I4+QKBgQDVFdMud+GXCmTfTVAk\nQRD2GzqxPO8nZOzDbc3kuAnVjm7dVpAy1cT76RF0pZEI9wjDGk9HHXDLRl2xrijF\nTGwIcbDK4KSrp/m0FVTy9iHSU+iZPNqfL7j2gCN09N9gVkrlhrn470cwrTHtRQRZ\nHp2OMP/ipfN6cMTiXg2eCrga1QKBgQC+kYliwL1KuHrk+CcWE2SLhHoQGttFV2Oh\nj7pxXZSQ8ltRFKzwWIe9qQ4JPWqUuiuqj7Br6iW3/CaCRYoFa8Vnq3nlIojfK7QW\n2SW7KWDzYyYi2dSi957YCLQoPvpAuNs3wPrS0ltirJw9+6DI7nMgHFxPc9ST+fYX\nIxivEplpuQKBgQCNKWA1sIVqIiChLf6hhdlOsMs5Dzz/xAR1kxCLLMCXETywtN/i\nTWup1sURmX1zivPrDEroucA3ae43/0BTNEV9cpPEUv3EGgt6GYelTRkq1RuKKJ5M\nRrkp08mpeW9hysjjNVWObDWlMZeZr9cpkvaddCiQZY/e1UYZEGXFBSTh4QKBgCkk\neJnGbNel7npijOW6OBna9xNlCPP2gv8Nbb4t6vZELKzbnt6g7mVnCy25gbosW2MO\ndJNH0O7g1FuJsdurwcm4/q8WfqBX6iCIrxmyPEkvnbsmdj7c4QFZF7QcrKCuiD2I\nP16mpa4u/+ht2++lc1t6Y/+PTVTJQXULUbfydwaZAoGAVgUBmspoMsxIi1XpQ3mW\nZEJE8anQq1bxKVW5+ZN+vcCVXKijOch5t/e8A18p/VCaVu9ANQkMEsdcnaTS6wyT\n/o9M5IaG12GQhpQnY3yV4yWmpmhaMEJXGYplEXxh4KQZm23g67RWosM5Hsut2kGX\n2uynXthVKeyatEkDQSUfbbg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "lexresearch@potent-well-409605.iam.gserviceaccount.com",
+  "client_id": "113312078867195871185",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lexresearch%40potent-well-409605.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

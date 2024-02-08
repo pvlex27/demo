@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexResearch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #0e0f0f;
+        }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+        }
+
+        header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #fffefe;
+        }
+
+        form h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fffcfc;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            padding-left: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        i {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #181616;
+        }
+
+        .fa-phone {
+            top: 50%;
+            transform: translateY(-50%) rotate(-250deg);
+        }
+
+        .custom-input {
+            width: calc(100% - 20px); /* Adjusted width to match login form */
+            padding: 10px;
+            background-color: #318d34;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        
+                
+                .custom-input:hover {
+                    background-color: #2e7f2b; /* Darker color on hover, adjust as needed */
+                }
+                
+                .separator {
+                    margin: 15px 0;
+                    color: #fffbfb;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+                
+        
+            
+                .already-member {
+                    margin-top: 20px;
+                    color: #fffafa;
+                }
+        
+                .already-member a {
+                    color: #fd3e0e;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+                .g-input {
+                    width: 85%; /* Adjusted width to match login button */
+                    padding: 10px;
+                    background-color: #db4437; /* Google Red */
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    text-decoration: none;
+                    display: inline-block;
+                    margin-top: 10px;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .g-input:hover {
+                    background-color: #c1351d; /* Darker Google Red on hover */
+                }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <header>Welcome to LexResearch</header>
+        <form method="post" action="{{ url_for('register') }}">
+            <h2>Register</h2>
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="Username" required name="username">
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required name="password">
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-phone"></i>
+                
+                <input type="tel" id="phoneno" placeholder="PhoneNo (+91)" required name="phoneno" pattern="^\+91[1-9]\d{9}$" maxlength="13">
+            </div>
+        
+            <input type="submit" class="custom-input" value="Register">
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <div class="separator">or</div>
+    <a href="{{ url_for('google_login') }}" class="g-input">Continue with Google</a>
+        <div class="already-member">
+            <p>Already a member? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

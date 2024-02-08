@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_dashborad.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar without toggle icon -->
+            <div class="col-md-2 sidebar">
+                <div>
+                    <div class="profile">
+                        {% if 'google_user_info' in session %}
+                            <img src="{{ session['google_user_info'].get('picture') }}" alt="User Icon">
+                            <h4>{{ session['google_user_info'].get('name') }}</h4>
+                        {% else %}
+                        <img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" alt="User Icon">
+                        <h4>{{ username }}</h4>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="d-flex flex-column bottom-buttons">
+                    <button class="btn btn-warning mt-2 btn-block" onclick="clearChat()">Clear Chat</button>
+                     
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger mt-2 btn-block">Logout</a>
+                </div>
+            </div>
+
+            <!-- Main content area -->
+            <main class="col-md-10 ml-sm-auto dashboard-content" style="overflow-y: auto; max-height: 100vh;">
+                <div class="input-box">
+                    <h3>Situation</h3>
+                    <textarea class="form-control" id="situationInput" rows="4" placeholder="Please enter your situation here...."></textarea>
+                    <button class="btn btn-dark mt-3 mx-auto d-block" onclick="sendSituation()">Submit</button>
+                </div>
+                <h3 id="recommendationHeading" style="display: none; font-weight: bold; color: white;">Recommendation</h3>
+                <div class="response-box">
+                  
+                    <p id="recommendationOutput"></p>
+                    
+                    <div class="feedback-buttons text-right" >
+                        <button class="btn btn-success" onclick="handleLike()">Like</button>
+                        <button class="btn btn-danger" onclick="handleDislike()">Dislike</button>
+                        <button class="btn btn-info" onclick="provideFeedback()">Provide Feedback</button>
+                    </div>
+                </div>
+
+                <!-- Question and buttons outside the recommendation box -->
+                <div class="col-md-12 question-box text-center mt-4">
+                   <h6 class="white-text"><span class="single-line">Do you want the judgments in support of your case?</span></h6>
+                    <button class="btn btn-success" onclick="handleYes()">Yes</button>
+                    <button class="btn btn-danger" onclick="handleNo()">No</button>
+
+                     <!-- Add IDs to Print and Share buttons -->
+    <button id="printButton" class="btn btn-primary">Print</button>
+    <button id="shareButton" class="btn btn-secondary">Share</button>
+                </div>
+
+                <!-- Feedback Modal -->
+            <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="feedbackModalLabel">Provide Feedback</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <textarea class="form-control" id="feedbackInput" rows="4" placeholder="Enter your feedback"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            </main>
+        </div>
+    </div>
+
+     
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Font Awesome JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+
+    <!-- Your custom JavaScript for handling input and displaying recommendations -->
+    <script>
+        function sendSituation() {
+            var situationInput = document.getElementById("situationInput").value;
+        
+            // Send situationInput to the backend using fetch
+            fetch('/get_recommendation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'situation': situationInput,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the content of recommendationOutput with the response from the backend
+                document.getElementById("recommendationOutput").innerText = data.recommendation;
+                
+
+                  // Show the recommendation heading
+                showRecommendationHeading();
+                // Add border to the response box
+                showResponseBoxBorder();
+        
+                // Scroll to the bottom of the main content area
+                var dashboardContent = document.querySelector('.dashboard-content');
+                dashboardContent.scrollTop = dashboardContent.scrollHeight;
+        
+                // Show the question box and feedback buttons
+                document.querySelector('.question-box').style.display = 'block';
+                document.querySelector('.feedback-buttons').style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        
+        function showRecommendationHeading() {
+            // Get the recommendation heading element
+            var recommendationHeading = document.getElementById("recommendationHeading");
+        
+            // Show the recommendation heading
+            recommendationHeading.style.display = 'block';
+        }
+        
+        function showResponseBoxBorder() {
+            // Get the response box element
+            var responseBox = document.querySelector('.response-box');
+
+            
+        
+            // Add a border to the response box
+            responseBox.style.border = '1px solid #ccc';
+            responseBox.style.backgroundColor = '#fff';
+        }
+    
+        function handleYes() {
+            // Handle "Yes" button click
+            alert('You selected Yes. Implement your logic here.');
+        }
+
+        function handleNo() {
+            // Handle "No" button click
+            printSituationAndRecommendation();
+        }
+
+        /*function printSituationAndRecommendation() {
+            var situationInput = document.getElementById("situationInput").value;
+            var recommendationOutput = document.getElementById("recommendationOutput").innerText;
+        
+            // Create an HTML structure with styling
+            var htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Situation and Recommendation</title>
+                <style>
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background-color: #fff;
+                        color: #000;
+                        padding: 20px;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        border: 1px solid #ccc;
+                        padding: 20px;
+                        border-radius: 8px;
+                    }
+                    h2 {
+                        color: #333;
+                    }
+                    .situation, .recommendation {
+                        margin-bottom: 15px;
+                    }
+                    pre {
+                        white-space: pre-wrap;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h2>Situation and Recommendation</h2>
+                    <div class="situation">
+                        <h3>Situation</h3>
+                        <pre>${situationInput}</pre>
+                    </div>
+                    <div class="recommendation">
+                        <h3>Recommendation</h3>
+                        <pre>${recommendationOutput}</pre>
+                    </div>
+                </div>
+            </body>
+            </html>
+            `;
+        
+            // Create a Blob containing the HTML
+            var blob = new Blob([htmlContent], { type: "text/html" });
+        
+            // Create a download link
+            var a = document.createElement("a");
+            a.href = window.URL.createObjectURL(blob);
+            a.download = "situation_and_recommendation.html";
+            
+            // Append the link to the document
+            document.body.appendChild(a);
+        
+            // Trigger a click on the link to start the download
+            a.click();
+        
+            // Remove the link from the document
+            document.body.removeChild(a);
+        }*/
+
+        function handleLike() {
+            // Send feedback to the server
+            sendFeedback('like');
+        }
+        
+        function handleDislike() {
+            // Send feedback to the server
+            sendFeedback('dislike');
+        }
+
+        function sendFeedback(feedbackType) {
+            var situationInput = document.getElementById("situationInput").value;
+        
+            // Send situationInput and feedbackType to the backend using fetch
+            fetch('/provide_feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'situation': situationInput,
+                    'feedback_type': feedbackType
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        function provideFeedback() {
+            // Open the feedback modal
+            $('#feedbackModal').modal('show');
+        }
+        
+        function submitFeedback() {
+            var feedbackInput = document.getElementById("feedbackInput").value;
+            var situationInput = document.getElementById("situationInput").value;
+        
+            // Send feedback to the backend using fetch
+            fetch('/submit_feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'feedback': feedbackInput,
+                    'situation': situationInput
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Display a success message or handle as needed
+                $('#feedbackModal').modal('hide'); // Close the feedback modal
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        function clearChat() {
+            // Clear the recommendation output
+            document.getElementById("recommendationOutput").innerText = "";
+        
+            // Hide the question box and feedback buttons
+            document.querySelector('.question-box').style.display = 'none';
+            document.querySelector('.feedback-buttons').style.display = 'none';
+            
+         
+            // Reset the border of the response box to 0
+            resetResponseBoxBorder();
+
+             // Hide the recommendation heading
+            hideRecommendationHeading();
+        
+            // Clear the situation input
+            document.getElementById("situationInput").value = "";
+        }
+        
+        function resetResponseBoxBorder() {
+            // Get the response box element
+            var responseBox = document.querySelector('.response-box');
+        
+            // Reset the border of the response box to 0
+            responseBox.style.border = 'none';
+            responseBox.style.backgroundColor = 'transparent';
+        }
+
+        function hideRecommendationHeading() {
+            // Get the recommendation heading element
+            var recommendationHeading = document.getElementById("recommendationHeading");
+            
+            // Hide the recommendation heading
+            recommendationHeading.style.display = 'none';
+        }
+       
+        function handleNo() {
+            // Show the Print and Share buttons when "No" is clicked
+            document.getElementById("printButton").style.display = 'inline-block';
+            document.getElementById("shareButton").style.display = 'inline-block';
+        
+            // Add event listeners to the buttons
+            document.getElementById("printButton").addEventListener("click", printContent);
+            document.getElementById("shareButton").addEventListener("click", shareContent);
+        
+            // ... rest of your existing code for handling "No" click
+        }
+        function printContent() {
+            var situationInput = document.getElementById("situationInput").value;
+            var recommendationOutput = document.getElementById("recommendationOutput").innerText;
+        
+            // Create a new window for printing
+            var printWindow = window.open('', '_blank');
+        
+            // Add content to the new window with improved styling
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Printed Content</title>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding: 20px;
+                        }
+                        h3 {
+                            color: #333;
+                        }
+                        p {
+                            white-space: pre-wrap;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h3>Situation:</h3>
+                    <p>${situationInput}</p>
+                    <h3>Recommendation:</h3>
+                    <p>${recommendationOutput}</p>
+                </body>
+                </html>
+            `);
+        
+            // Close the document stream
+            printWindow.document.close();
+        
+            // Trigger the print dialog
+            printWindow.print();
+        }
+        
+        
+        function shareContent() {
+            var situationInput = document.getElementById("situationInput").value;
+            var recommendationOutput = document.getElementById("recommendationOutput").innerText;
+        
+            // Create an HTML structure with styling
+            var htmlContent = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Situation and Recommendation</title>
+                    <style>
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            background-color: #fff;
+                            color: #000;
+                            padding: 20px;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 0 auto;
+                            border: 1px solid #ccc;
+                            padding: 20px;
+                            border-radius: 8px;
+                        }
+                        h2 {
+                            color: #333;
+                        }
+                        .situation, .recommendation {
+                            margin-bottom: 15px;
+                        }
+                        pre {
+                            white-space: pre-wrap;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h2>Situation and Recommendation</h2>
+                        <div class="situation">
+                            <h3>Situation</h3>
+                            <pre>${situationInput}</pre>
+                        </div>
+                        <div class="recommendation">
+                            <h3>Recommendation</h3>
+                            <pre>${recommendationOutput}</pre>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+        
+            // Encode the HTML content for the email body
+            var encodedHtmlContent = encodeURIComponent(htmlContent);
+        
+            // Compose the mailto link with the encoded HTML content
+            var mailtoLink = `mailto:?subject=Situation%20and%20Recommendation&body=${encodedHtmlContent}`;
+        
+            // Open the default email client with the mailto link
+            window.location.href = mailtoLink;
+        }
+
+        function shareContent() {
+    var situationInput = document.getElementById("situationInput").value;
+    var recommendationOutput = document.getElementById("recommendationOutput").innerText;
+    
+    // Compose the email body
+    var emailBody = `
+    Situation:
+    ${situationInput}
+    
+    Recommendation:
+    ${recommendationOutput}
+    `;
+    
+    // Compose the mailto link with subject, body, and sender email
+    var mailtoLink = `mailto:?to=&subject=Situation%20and%20Recommendation&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open the default email client with the mailto link
+    window.location.href = mailtoLink;
+}
+        
+        // Add event listeners to the buttons
+        document.getElementById("printButton").addEventListener("click", printContent);
+        document.getElementById("shareButton").addEventListener("click", shareContent);
+
+    </script>
+    
+</body>
+</html>
