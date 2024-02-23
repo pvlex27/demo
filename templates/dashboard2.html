@@ -14,9 +14,22 @@
 <style>
     
 
-.feedback-buttons {
+
+  .feedback-buttons {
     display: none;
     margin-top: 15px;
+    background-color: transparent;
+  
+    color: #000; /* Set text color */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+
+/* Change background color and text color on hover */
+.feedback-buttons .btn:hover {
+    background-color: #000; /* Change background color to black on hover */
+    color: #fff; /* Change text color to white on hover */
 }
 
 .question-box {
@@ -24,7 +37,19 @@
 }
 
 
+.btn-yes, .btn-no {
+  color: #fff;
+  font-weight: bold;
+  border: 2px solid #424040;
+  background-color: transparent;
+  margin: 5px; /* Adjust margin as needed */
+  padding: 8px 16px; /* Adjust padding as needed */
+}
 
+.btn-yes:hover, .btn-no:hover {
+  background-color: #fff;
+  color:#000 ;
+}
 
 
 .response-box {
@@ -34,22 +59,9 @@
     background-color: transparent;
     text-align: left;
     transition: border 0.3s;
-    max-height: 250px; /* Set the maximum height */
-    overflow-y: auto; /* Enable vertical scrolling */
-}
-
-/* Ensure proper box-sizing for the scroll bar */
-.response-box::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
-}
-
-.response-box::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color of the scrollbar thumb */
-    border-radius: 4px; /* Border radius of the scrollbar thumb */
-}
-
-.response-box::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Color of the scrollbar track */
+    /* Remove fixed height and auto-scroll */
+    /* max-height: 250px; */
+    /* overflow-y: auto; */
 }
 
 
@@ -77,12 +89,14 @@ body {
   }
   
   .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the navbar stays on top of other content */
     overflow: hidden;
     background-color: #111;
     border-bottom: 1px solid #353232;
-   
-   
-  }
+}
   
   .navbar a {
     float: left;
@@ -104,6 +118,7 @@ body {
   }
   
   .sidebar {
+    z-index: 1100;
     height: 100%;
     width: 0;
     position: fixed;
@@ -145,10 +160,19 @@ body {
   
   #main-content {
     transition: margin-left .5s;
-    padding: 16px;
-    overflow: hidden;
-  }
-  
+    padding: 60px 16px 16px 16px; /* Adjusted top padding to accommodate the fixed navbar */
+    margin-bottom: 60px; /* Adjust margin to accommodate the footer */
+    padding-bottom: 20px; 
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: calc(100vh - 60px);
+    
+}
+#main-content.auto-scroll {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+ 
+
   .profile {
     
     display: flex;
@@ -179,7 +203,9 @@ body {
     bottom: 20px; /* Adjusted bottom margin */
     width: 100%;
     text-align: center;
+    
   }
+  
   
   .logout-btn {
     display: inline-block;
@@ -271,14 +297,36 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 /* Styling for the submit button when active (text is typed in the textarea) */
 .submit-btn.active {
     background-color: #e7ece7;
+    border: 2px solid black;
     color:black; /* Bright color */
+    font-weight: bold;
 }
   
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333; /* Set background color */
+    color: white; /* Set text color */
+    padding: 10px 0; /* Adjust padding as needed */
+    z-index: 100; /* Ensure footer is above other content */
+}
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #646161;
+    margin: 0 auto; /* Center the line */
+    width: 80%; /* Set your desired width */
+}
+
   /* Adjust styles for small screens */
   @media screen and (max-width: 768px) {
     .situation h3 {
@@ -319,19 +367,161 @@ body {
     }
   }
 
+  @media screen and (max-width: 768px) {
+    /* Adjust sidebar and main content z-index for small screens */
+    .sidebar {
+        z-index: 1100;
+    }
+    #main-content {
+        z-index: 1000;
+    }
+}
+
+.question, .answer {
+  max-height: 100px; /* Adjust as needed */
+  overflow: hidden;
+}
+
+#hi {
+  color: white;
+ 
+}
+.user-history {
+  position: relative;
+  overflow-y: auto;
+  max-height: calc(100% - 160px); /* Adjust height as needed */
+}
+
+#hi .question,
+#hi .answer {
+  color: white; /* Optionally, you can set different text colors for question and answer */
+  background-color: gray;
+}
+
+
+#hi h2 {
+  font-size: 18px; /* Adjust the font size as needed */
+  text-align: center; /* Center align the text */
+  background-color: #333; /* Set the background color */
+  padding: 5px; /* Add padding */
+  width: 90%; /* Adjust the width as needed */
+  margin: 0 auto;
+  margin-bottom: 10px; /* Add some bottom margin */
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1; /*
+  border-radius: 5px;
+  
+}
+
+#hi h4 {
+  font-size: 10px !important; /* Adjust the font size of the date */
+  margin-left: 10px; /* Add some left margin */
+  margin-bottom: 5px; /* Add some bottom margin */
+
+}
+
+#hi ul {
+  list-style-type: none; /* Remove the bullets */
+  padding: 0; /* Remove default padding */
+}
+
+#hi ul li {
+  margin-left: 10px; /* Add some left margin */
+  margin-bottom: 10px; /* Add some bottom margin between each question */
+}
+
+.history-box {
+  display: inline-block;
+  width: 10px; /* Adjust width as needed */
+  height: 10px; /* Adjust height as needed */
+  border: 1px solid gray; /* Border color and thickness */
+  margin-right: 10px; /* Adjust margin as needed */
+  background-color: transparent; /* Make the background transparent */
+}
+#hi .history-item {
+  color: white; /* Set text color to white */
+  text-decoration: none; /* Remove text decoration */
+}
+
+
+.user-history::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+  background-color: #111; /* Background color of the scrollbar */
+}
+
+.user-history::-webkit-scrollbar-thumb {
+  background-color: white; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Border radius of the scrollbar thumb */
+  height: 10px;
+}
+
+.history-item {
+  padding: 10px 20px; /* Adjust padding as needed */
+  margin-bottom: 5px; /* Optional: Add margin-bottom to separate history items */
+  border-radius: 15px; /* Add rounded border */
+  transition: all 0.3s; /* Add transition for smooth hover effect */
+}
+
+/* Styles for hover effect */
+.history-item:hover {
+  background-color: rgba(128, 128, 128, 0.8); /* Gray color with 80% opacity */
+  padding: 10px 20px; /* Keep the same padding on hover */
+  max-width: 100%; /* Set max-width to 80% on hover */
+  border-radius: 5px; /* Add rounded border */
+}
+
+
+  .history-item.active {
+    background-color: #333;
+    display: block;
+    border-radius: 5px; 
+    padding-right: 10px; /* Adjust padding-right as needed */
+    margin-right: 10px;
+    padding: 5px 10px; /* Adjust padding as needed */
+    margin-bottom: 5px;
+}
+  
+.delete-icon, .delete-option {
+  display: none;
+  cursor: pointer;
+  color: #888; /* Default color */
+  font-weight: bold;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+
+.delete-icon:hover {
+  color: red; /* Change color on hover */
+  font-weight: bold;
+  display: inline-block;
+}
+
+.delete-button {
+    display: none;
+    margin-left:50px ;
+}
+
+.history-item-wrapper.active .delete-icon,
+.history-item-wrapper.active .delete-button {
+    display: inline-block;
+}
+
   </style>
   </head>
-  <body>
+  <body >
   
   <div class="navbar">
-    <a href="#" class="openbtn" onclick="openNav()">☰</a>
+    <a href="#" class="openbtn" onclick="openNav()" title="Expand Menu">☰</a>
   
     <a href="#" class="right" onclick="clearChat()"><b>+</b> New Chat</a>
     
   </div>
   
   <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" title="Collapse Menu">×</a>
     <div class="profile">
       {% if 'google_user_info' in session %}
       <img src="{{ session['google_user_info'].get('picture') }}" alt="User Icon">
@@ -341,6 +531,30 @@ body {
       <h4>{{ username }}</h4>
       {% endif %}
     </div>
+
+    <div id="hi" class="user-history">
+    <h2>User History</h2>
+    {% for date_label, queries in grouped_queries.items() %}
+        <h4 style="font-size: 14px;">{{ date_label }}</h4>
+        <ul>
+            {% for query in queries[::-1] %} {# Reverse the order of queries #}
+                <li>
+                    
+                  <div class="history-item-wrapper">
+                    <a href="#" class="history-item" data-question="{{ query.question }}" data-response="{{ query.response[0] }}">
+                        {{ query.question_short }}
+                    </a>
+                    <span class="delete-icon" onclick="toggleDeleteOption(this)" title="Click To Delete Chat">....</span>
+                    <button class="delete-button" onclick="deleteQuestion(this)">Delete Chat</button>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <!-- Debug: Print date_label and number of queries -->
+         <!--<p>{{ date_label }} - Number of queries: {{ queries|length }}</p>-->
+    {% endfor %}
+</div>
+
     <div class="bottom-btn">
       <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
     </div>
@@ -362,26 +576,43 @@ body {
                     <p id="recommendationOutput"></p>
                     
                     <div class="feedback-buttons text-right" >
-                        <button class="btn btn-success" onclick="handleLike()">Like</button>
-                        <button class="btn btn-danger" onclick="handleDislike()">Dislike</button>
-                        <button class="btn btn-info" onclick="provideFeedback()">Provide Feedback</button>
+                      <button class="btn " onclick="handleLike()"><i class="fas fa-thumbs-up"></i></button>
+                      <button class="btn" onclick="handleDislike()"><i class="fas fa-thumbs-down"></i></button>
+                      <button class="btn " onclick="provideFeedback()"><b>Additional Feedback</b></button>
                     </div>
                 </div>
 
                 <!-- Question and buttons outside the recommendation box -->
                 <div class="col-md-12 question-box text-center mt-4">
-                   <h6 class="white-text"><span class="single-line">Do you want the judgments in support of your case?</span></h6>
-                    <button class="btn btn-success" onclick="handleYes()">Yes</button>
-                    <button class="btn btn-danger" onclick="handleNo()">No</button>
+                  <h6 class="white-text"><span class="single-line"><b>Do you want the judgments in support of your case?</b></span></h6>
+                  <button class="btn btn-yes" onclick="handleYes()">Yes</button>
+                  <button class="btn btn-no" onclick="handleNo()">No</button>
+                 </div>
 
-                     <!-- Add IDs to Print and Share buttons -->
-    <button id="printButton" class="btn btn-primary">Print</button>
-    <button id="shareButton" class="btn btn-secondary">Share</button>
-                </div>
+
+
+    <!-- Print and Share Modal -->
+<div class="modal fade" id="printShareModal" tabindex="-1" role="dialog" aria-labelledby="printShareModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="printShareModalLabel">Print or Share </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center">
+              <button id="printButton" class="btn btn-dark mr-2"><i class="fas fa-print"></i> Print</button>
+              <button id="shareButton" class="btn btn-dark"><i class="fas fa-share-alt"></i> Share</button>
+          </div>
+      </div>
+  </div>
+</div>
+                
 
                 <!-- Feedback Modal -->
             <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="feedbackModalLabel">Provide Feedback</h5>
@@ -392,16 +623,20 @@ body {
                     <div class="modal-body">
                     <textarea class="form-control" id="feedbackInput" rows="4" placeholder="Enter your feedback"></textarea>
                     </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+                    <div class="modal-footer  d-flex justify-content-center">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-dark" onclick="submitFeedback()">Submit Feedback</button>
                     </div>
                 </div>
                 </div>
             </div>
+           
             
         </div>
-   
+        <footer>
+            <hr>
+           
+        </footer>
 
      
     <!-- Bootstrap JS, Popper.js, and jQuery -->
@@ -414,6 +649,104 @@ body {
 
     <!-- Your custom JavaScript for handling input and displaying recommendations -->
     <script>
+
+      
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const historyItems = document.querySelectorAll('.history-item');
+        historyItems.forEach(function(item) {
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                const question = this.getAttribute('data-question');
+                const response = this.getAttribute('data-response');
+                // Populate the context and recommendation boxes
+                document.getElementById('situationInput').value = question;
+                document.getElementById('recommendationOutput').innerText = response;
+                // Show the recommendation heading
+                showRecommendationHeading();
+                // Add border to the response box
+                showResponseBoxBorder();
+                // Show the question box
+                document.querySelector('.question-box').style.display = 'block';
+            });
+        });
+    });
+    
+    function handleYes() {
+        // Implement logic for "Yes" button click
+    }
+    
+    function handleNo() {
+        // Show the Print and Share buttons
+        document.getElementById("printButton").style.display = 'inline-block';
+        document.getElementById("shareButton").style.display = 'inline-block';
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      var historyItems = document.querySelectorAll('.history-item');
+  
+      historyItems.forEach(function(item) {
+          item.addEventListener('click', function(event) {
+              // Remove active class from all history items
+              historyItems.forEach(function(item) {
+                  item.classList.remove('active');
+              });
+  
+              // Add active class to the clicked history item
+              this.classList.add('active');
+          });
+      });
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    var historyItems = document.querySelectorAll('.history-item-wrapper');
+
+    historyItems.forEach(function(item) {
+        item.addEventListener('mouseenter', function(event) {
+            var deleteIcon = this.querySelector('.delete-icon');
+            deleteIcon.style.display = 'inline';
+        });
+
+        item.addEventListener('mouseleave', function(event) {
+            var deleteIcon = this.querySelector('.delete-icon');
+            deleteIcon.style.display = 'none';
+        });
+    });
+});
+
+// Function to toggle delete option visibility
+function toggleDeleteOption(deleteIcon) {
+  var deleteButton = deleteIcon.nextElementSibling; // Get the delete button next to the delete icon
+  deleteButton.style.display = deleteButton.style.display === 'none' ? 'inline-block' : 'none'; // Toggle the visibility of the delete button
+}
+
+// Function to delete the chat item
+function deleteQuestion(deleteOption) {
+  var historyItemWrapper = deleteOption.parentNode;
+  var historyItem = historyItemWrapper.querySelector('.history-item');
+  var question = historyItem.getAttribute('data-question');
+
+  // Send an AJAX request to delete the question from the database
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/delete-question', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+              // Successfully deleted the question, remove it from the UI
+              historyItemWrapper.parentNode.removeChild(historyItemWrapper);
+          } else {
+              // Handle error response
+              console.error('Failed to delete question:', xhr.responseText);
+          }
+      }
+  };
+  xhr.send('question=' + encodeURIComponent(question));
+}
+
+
+     
+
         function sendSituation() {
             var situationInput = document.getElementById("situationInput").value;
         
@@ -431,23 +764,35 @@ body {
             .then(data => {
                 // Update the content of recommendationOutput with the response from the backend
                 document.getElementById("recommendationOutput").innerText = data.recommendation;
-                
-
-                  // Show the recommendation heading
+        
+                // Show the recommendation heading
                 showRecommendationHeading();
                 // Add border to the response box
                 showResponseBoxBorder();
         
-                document.getElementById("main-content").style.height = "calc(100vh - 56px)"; // Adjust 56px according to your navbar height
-        
+              
+            
+              
                 // Show the question box and feedback buttons
                 document.querySelector('.question-box').style.display = 'block';
                 document.querySelector('.feedback-buttons').style.display = 'block';
+
+          // Ensure the main content area scrolls to the bottom after new content is added
+        var mainContent = document.getElementById("main-content");
+        mainContent.scrollTop = mainContent.scrollHeight;
+        
+        // Automatically scroll down with smooth behavior
+        mainContent.classList.add('auto-scroll');
+
+
+           
             })
             .catch(error => console.error('Error:', error));
         }
-
         
+      
+     
+      
         function showRecommendationHeading() {
             // Get the recommendation heading element
             var recommendationHeading = document.getElementById("recommendationHeading");
@@ -466,88 +811,11 @@ body {
             responseBox.style.border = '1px solid #ccc';
             responseBox.style.backgroundColor = '#fff';
         }
+
+
+      
+
     
-        function handleYes() {
-            // Handle "Yes" button click
-            alert('You selected Yes. Implement your logic here.');
-        }
-
-        function handleNo() {
-            // Handle "No" button click
-            printSituationAndRecommendation();
-        }
-
-        /*function printSituationAndRecommendation() {
-            var situationInput = document.getElementById("situationInput").value;
-            var recommendationOutput = document.getElementById("recommendationOutput").innerText;
-        
-            // Create an HTML structure with styling
-            var htmlContent = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Context and Recommendation</title>
-                <style>
-                    body {
-                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                        background-color: #fff;
-                        color: #000;
-                        padding: 20px;
-                    }
-                    .container {
-                        max-width: 600px;
-                        margin: 0 auto;
-                        border: 1px solid #ccc;
-                        padding: 20px;
-                        border-radius: 8px;
-                    }
-                    h2 {
-                        color: #333;
-                    }
-                    .situation, .recommendation {
-                        margin-bottom: 15px;
-                    }
-                    pre {
-                        white-space: pre-wrap;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h2>Context and Recommendation</h2>
-                    <div class="situation">
-                        <h3>Context</h3>
-                        <pre>${situationInput}</pre>
-                    </div>
-                    <div class="recommendation">
-                        <h3>Recommendation</h3>
-                        <pre>${recommendationOutput}</pre>
-                    </div>
-                </div>
-            </body>
-            </html>
-            `;
-        
-            // Create a Blob containing the HTML
-            var blob = new Blob([htmlContent], { type: "text/html" });
-        
-            // Create a download link
-            var a = document.createElement("a");
-            a.href = window.URL.createObjectURL(blob);
-            a.download = "situation_and_recommendation.html";
-            
-            // Append the link to the document
-            document.body.appendChild(a);
-        
-            // Trigger a click on the link to start the download
-            a.click();
-        
-            // Remove the link from the document
-            document.body.removeChild(a);
-        }*/
-
         function handleLike() {
             // Send feedback to the server
             sendFeedback('like');
@@ -605,6 +873,8 @@ body {
             })
             .catch(error => console.error('Error:', error));
         }
+
+
         function clearChat() {
             // Clear the recommendation output
             document.getElementById("recommendationOutput").innerText = "";
@@ -622,6 +892,13 @@ body {
         
             // Clear the situation input
             document.getElementById("situationInput").value = "";
+
+            var historyItems = document.querySelectorAll('.history-item');
+
+            // Remove active class from all history items
+            historyItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
         }
         
         function resetResponseBoxBorder() {
@@ -640,6 +917,14 @@ body {
             // Hide the recommendation heading
             recommendationHeading.style.display = 'none';
         }
+
+
+
+        function handleYes() {
+            // Handle "Yes" button click
+            alert('You selected Yes. Implement your logic here.');
+            
+        }
        
         function handleNo() {
             // Show the Print and Share buttons when "No" is clicked
@@ -650,8 +935,25 @@ body {
             document.getElementById("printButton").addEventListener("click", printContent);
             document.getElementById("shareButton").addEventListener("click", shareContent);
         
-            // ... rest of your existing code for handling "No" click
+           
         }
+
+        function handleNo() {
+          // Open a modal pop-up for print and share options
+          $('#printShareModal').modal('show');
+      
+             // Show the Print and Share buttons when "No" is clicked
+             document.getElementById("printButton").style.display = 'inline-block';
+             document.getElementById("shareButton").style.display = 'inline-block';
+         
+          // Handle print button click
+          document.getElementById("printButtonModal").addEventListener("click", printContent);
+      
+          // Handle share button click
+          document.getElementById("shareButtonModal").addEventListener("click", shareContent);
+      }
+
+
         function printContent() {
             var situationInput = document.getElementById("situationInput").value;
             var recommendationOutput = document.getElementById("recommendationOutput").innerText;
@@ -681,7 +983,7 @@ body {
                     </style>
                 </head>
                 <body>
-                    <h3>Situation:</h3>
+                    <h3>Context:</h3>
                     <p>${situationInput}</p>
                     <h3>Recommendation:</h3>
                     <p>${recommendationOutput}</p>
@@ -705,7 +1007,7 @@ body {
     
     // Compose the email body
     var emailBody = `
-    Situation:
+    Context:
     ${situationInput}
     
     Recommendation:
@@ -724,15 +1026,29 @@ body {
         document.getElementById("shareButton").addEventListener("click", shareContent);
 
 
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-            document.getElementById("main-content").style.marginLeft = "250px";
-          }
-          
-          function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.getElementById("main-content").style.marginLeft= "0";
-          }
+      function openNav() {
+    // Check if the screen width is less than or equal to 768px (small screen)
+    if (window.innerWidth <= 768) {
+        document.getElementById("mySidebar").style.width = "270px";
+        document.getElementById("mySidebar").style.zIndex = "1100"; // Ensure sidebar is above main content
+        document.getElementById("main-content").style.marginLeft = "0px";
+        document.getElementById("main-content").style.zIndex = "1000"; // Lower z-index to be below sidebar
+    } else {
+        // For larger screens, set the sidebar width to 250px and main content margin-left to 250px
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("mySidebar").style.zIndex = "1100"; // Ensure sidebar is above main content
+        document.getElementById("main-content").style.marginLeft = "250px";  
+        document.getElementById("main-content").style.zIndex = "1000"; // Lower z-index to be below sidebar
+        
+    
+    
+      }
+}
+      
+      function closeNav() {
+          document.getElementById("mySidebar").style.width = "0";
+          document.getElementById("main-content").style.marginLeft= "0";
+      }
 
 
            // Get the textarea element and the submit button
@@ -762,6 +1078,10 @@ body {
 
     // Add event listener for "New Chat" button click
     newChatBtn.addEventListener("click", resetSubmitButtonColor);
+
+
+ 
+    
     </script>
     
     

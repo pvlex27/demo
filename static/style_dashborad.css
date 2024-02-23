@@ -101,3 +101,11 @@ body {
 }
 
 
+@media (max-width: 767px) {
+    .dashboard-content {
+        margin-left: 0; /* Remove the left margin */
+        margin-top: 0; /* Adjust margin-top to push content below the sidebar */
+        width: 100%; /* Make the content full width */
+    }
+}
+

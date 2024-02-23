@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query History</title>
+    <style>
+        .question, .answer {
+            max-height: 100px; /* Adjust as needed */
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Query History</h2>
+        {% for date_label, queries in grouped_queries.items() %}
+        <h3>{{ date_label }}</h3>
+        <ul>
+            {% for query in queries %}
+            <li>
+                <div class="question">{{ query.question_short }}</div>
+                <div class="answer">{{ query.answer_short }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
+    <div id="content">
+        <!-- Your main content goes here -->
+    </div>
+</body>
+</html>
